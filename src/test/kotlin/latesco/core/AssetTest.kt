@@ -1,3 +1,6 @@
+package latesco.core
+
+import latesco.core.Asset
 import org.junit.Test
 
 import org.junit.Assert.*
