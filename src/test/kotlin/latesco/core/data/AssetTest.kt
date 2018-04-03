@@ -15,9 +15,9 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.core
+package latesco.core.data
 
-import latesco.core.Asset
+import latesco.core.data.Asset
 import org.junit.Test
 
 import org.junit.Assert.*

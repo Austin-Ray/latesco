@@ -17,8 +17,8 @@
 
 package latesco.db.abs
 
-import latesco.core.Asset
-import latesco.core.PriceRecord
+import latesco.core.data.Asset
+import latesco.core.data.PriceRecord
 import java.math.BigDecimal
 import java.util.*
 
