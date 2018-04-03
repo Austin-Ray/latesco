@@ -15,13 +15,13 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.core
+package latesco.core.data
 
 /**
  * Object representing an arbitrary asset in Latesco's memory.
  *
  * During initialization, Latesco will read the entire asset list from its database
- * and create a list of latesco.core.Asset objects. This will be Latesco's working memory of how
+ * and create a list of latesco.core.data.Asset objects. This will be Latesco's working memory of how
  * many different types of assets it currently has.
  *
  * When a new asset entry is created, this object will be the last piece created.
