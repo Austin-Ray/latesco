@@ -14,6 +14,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 
@@ -31,4 +32,33 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+jacocoTestReport {
+    classDirectories = files("${buildDir}/classes")
+
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacoco/jacocoHtml")
+    }
+
+    sourceDirectories = files([
+            sourceSets.main.java.srcDirs,
+            "src/main/kotlin"
+    ])
+
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['**/*Test.*'])
+        })
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+    }
 }
