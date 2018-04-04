@@ -31,122 +31,122 @@ import java.util.*
  */
 interface Database {
 
-    /**
-     * Inserts a new price record for an asset.
-     *
-     * Since PriceRecord contains all the relevant information to add to the database
-     * it isn't necessary to pass in more information.
-     *
-     * @param priceEntry    PriceRecord object to be recorded in the database
-     */
-    fun insertPriceEntry(priceEntry: PriceRecord)
+  /**
+   * Inserts a new price record for an asset.
+   *
+   * Since PriceRecord contains all the relevant information to add to the database
+   * it isn't necessary to pass in more information.
+   *
+   * @param priceEntry    PriceRecord object to be recorded in the database
+   */
+  fun insertPriceEntry(priceEntry: PriceRecord)
 
-    /**
-     * Inserts a new asset into the database and returns a UID.
-     *
-     * @param assetName     Human-readable name for an asset
-     * @param assetSymbol   Symbol that represents that asset
-     *
-     * @return  Asset UID for asset inserted into the database.
-     */
-    fun insertAsset(assetName: String, assetSymbol: String) : Long
+  /**
+   * Inserts a new asset into the database and returns a UID.
+   *
+   * @param assetName     Human-readable name for an asset
+   * @param assetSymbol   Symbol that represents that asset
+   *
+   * @return  Asset UID for asset inserted into the database.
+   */
+  fun insertAsset(assetName: String, assetSymbol: String): Long
 
-    /**
-     * Insert an API into the database and return its UID for archival purposes.
-     *
-     * This is done so that information can be corroborated even if an API
-     * has been removed from the program. Otherwise, a loss of information
-     * occurs.
-     *
-     * @param apiName   Human-readable name
-     *
-     * @return          UID for the API
-     */
-    fun insertApi(apiName: String) : Long
+  /**
+   * Insert an API into the database and return its UID for archival purposes.
+   *
+   * This is done so that information can be corroborated even if an API
+   * has been removed from the program. Otherwise, a loss of information
+   * occurs.
+   *
+   * @param apiName   Human-readable name
+   *
+   * @return          UID for the API
+   */
+  fun insertApi(apiName: String): Long
 
-    /**
-     * Update a user's quantity for a given asset.
-     *
-     * Latesco operates on the assumption that it will be a dependency in a larger
-     * piece of software. This way, it trusts that the user UID provide has not been
-     * modified maliciously. Otherwise, the program it is incorporated in is being
-     * hostile to itself.
-     *
-     * @param userUid       User UID
-     * @param assetUid      Asset UID
-     * @param newQuantity   New quantity
-     */
-    fun updateUserQuantity(userUid: Long, assetUid: Long, newQuantity: Long)
+  /**
+   * Update a user's quantity for a given asset.
+   *
+   * Latesco operates on the assumption that it will be a dependency in a larger
+   * piece of software. This way, it trusts that the user UID provide has not been
+   * modified maliciously. Otherwise, the program it is incorporated in is being
+   * hostile to itself.
+   *
+   * @param userUid       User UID
+   * @param assetUid      Asset UID
+   * @param newQuantity   New quantity
+   */
+  fun updateUserQuantity(userUid: Long, assetUid: Long, newQuantity: Long)
 
-    /**
-     * Fetches an Asset given its UID.
-     *
-     * This is function is beneficial for cache swaps since the list of asset UIDs
-     * is relatively small to keep in memory compared to the entirety of the Asset
-     * objects. Furthermore, the primitive nature of using UIDs makes searching
-     * faster.
-     *
-     * @param assetUid  UID of asset
-     *
-     * @return          Composed Asset object based on database record
-     */
-    fun fetchAsset(assetUid: Long) : Asset
+  /**
+   * Fetches an Asset given its UID.
+   *
+   * This is function is beneficial for cache swaps since the list of asset UIDs
+   * is relatively small to keep in memory compared to the entirety of the Asset
+   * objects. Furthermore, the primitive nature of using UIDs makes searching
+   * faster.
+   *
+   * @param assetUid  UID of asset
+   *
+   * @return          Composed Asset object based on database record
+   */
+  fun fetchAsset(assetUid: Long): Asset
 
-    /**
-     * Return the most recent PriceRecord for an asset and API.
-     *
-     * @param assetUid      Asset UID
-     * @param apiUid        API UID
-     *
-     * @return              Most recent PriceRecord matching asset and API UID.
-     */
-    fun fetchCurrentPrice(assetUid: Long, apiUid: Long) : PriceRecord
+  /**
+   * Return the most recent PriceRecord for an asset and API.
+   *
+   * @param assetUid      Asset UID
+   * @param apiUid        API UID
+   *
+   * @return              Most recent PriceRecord matching asset and API UID.
+   */
+  fun fetchCurrentPrice(assetUid: Long, apiUid: Long): PriceRecord
 
-    /**
-     * Return a list of PriceRecords for a given API's asset prices between an inclusive bound.
-     *
-     * This is a generic implementation to allow more flexibility in queries. Specific query
-     * intervals such as 24hr, 6mon, or 1y are implemented higher up on the call chain.
-     *
-     * @param assetUid  Asset UID
-     * @param apiUid    API UID
-     * @param start     Inclusive start date-time of query
-     * @param end       Inclusive end date-time of query
-     *
-     * @return
-     */
-    fun fetchPriceInterval(assetUid: Long, apiUid: Long, start: Date, end: Date) : List<PriceRecord>
+  /**
+   * Return a list of PriceRecords for a given API's asset prices between an inclusive bound.
+   *
+   * This is a generic implementation to allow more flexibility in queries. Specific query
+   * intervals such as 24hr, 6mon, or 1y are implemented higher up on the call chain.
+   *
+   * @param assetUid  Asset UID
+   * @param apiUid    API UID
+   * @param start     Inclusive start date-time of query
+   * @param end       Inclusive end date-time of query
+   *
+   * @return
+   */
+  fun fetchPriceInterval(assetUid: Long, apiUid: Long, start: Date, end: Date): List<PriceRecord>
 
-    /**
-     * Fetch the quantity of a user's asset.
-     *
-     * @param userUid       User UID
-     * @param assetUid      Asset UID
-     *
-     * @return              Decimal representation of quantity. Some assets can be partial.
-     */
-    fun fetchUserAssetQuantity(userUid: Long, assetUid: Long) : BigDecimal
+  /**
+   * Fetch the quantity of a user's asset.
+   *
+   * @param userUid       User UID
+   * @param assetUid      Asset UID
+   *
+   * @return              Decimal representation of quantity. Some assets can be partial.
+   */
+  fun fetchUserAssetQuantity(userUid: Long, assetUid: Long): BigDecimal
 
-    /**
-     * Return a list of all Asset UIDs.
-     *
-     * Caching benefits from this function as Latesco can check existing UIDs without reading from the
-     * database to verify if cache is incomplete. The result is lower memory usage by using simple
-     * primitives and ignoring the extraneous information, which is beneficial if the list of assets
-     * is in the order of millions.
-     *
-     * @return  List of all Asset UIDs.
-     */
-    fun fetchAllAssetUids() : List<Long>
+  /**
+   * Return a list of all Asset UIDs.
+   *
+   * Caching benefits from this function as Latesco can check existing UIDs without reading from the
+   * database to verify if cache is incomplete. The result is lower memory usage by using simple
+   * primitives and ignoring the extraneous information, which is beneficial if the list of assets
+   * is in the order of millions.
+   *
+   * @return  List of all Asset UIDs.
+   */
+  fun fetchAllAssetUids(): List<Long>
 
-    /**
-     * Return all API UIDs.
-     *
-     * This function is used on Latesco's startup to match to registered APIs.
-     *
-     * This is not used for caching as swapping out APIs should never be done.
-     *
-     * @return  List of all API UIDs.
-     */
-    fun fetchAllApiUids() : List<Long>
+  /**
+   * Return all API UIDs.
+   *
+   * This function is used on Latesco's startup to match to registered APIs.
+   *
+   * This is not used for caching as swapping out APIs should never be done.
+   *
+   * @return  List of all API UIDs.
+   */
+  fun fetchAllApiUids(): List<Long>
 }

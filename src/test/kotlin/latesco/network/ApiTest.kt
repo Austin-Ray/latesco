@@ -25,66 +25,66 @@ import org.mockito.Mockito
 
 class ApiTest {
 
-    private val name1 = "TEST-1"
-    private val name2 = "TEST-2"
+  private val name1 = "TEST-1"
+  private val name2 = "TEST-2"
 
-    private val domain1 = "www.example.com"
-    private val domain2 = "www.example.org"
+  private val domain1 = "www.example.com"
+  private val domain2 = "www.example.org"
 
-    private val mockFetcher = Mockito.mock(ApiFetcher::class.java)
+  private val mockFetcher = Mockito.mock(ApiFetcher::class.java)
 
-    @Test
-    fun getFetcher() {
-        val api             = Api(0, name1, domain1)
-        val apiWithFetcher  = Api(1, name2, domain2, mockFetcher)
+  @Test
+  fun getFetcher() {
+    val api = Api(0, name1, domain1)
+    val apiWithFetcher = Api(1, name2, domain2, mockFetcher)
 
-        assertNull(api.fetcher)
-        assertEquals(mockFetcher, apiWithFetcher.fetcher)
-    }
+    assertNull(api.fetcher)
+    assertEquals(mockFetcher, apiWithFetcher.fetcher)
+  }
 
-    @Test
-    fun setFetcher() {
-        val api             = Api(0, name1, domain1)
-        val apiWithFetcher  = Api(1, name2, domain2, mockFetcher)
+  @Test
+  fun setFetcher() {
+    val api = Api(0, name1, domain1)
+    val apiWithFetcher = Api(1, name2, domain2, mockFetcher)
 
-        val secondMockFetcher = Mockito.mock(ApiFetcher::class.java)
+    val secondMockFetcher = Mockito.mock(ApiFetcher::class.java)
 
-        assertNull(api.fetcher)
-        assertNotNull(apiWithFetcher.fetcher)
+    assertNull(api.fetcher)
+    assertNotNull(apiWithFetcher.fetcher)
 
-        api.fetcher = secondMockFetcher
-        apiWithFetcher.fetcher = secondMockFetcher
+    api.fetcher = secondMockFetcher
+    apiWithFetcher.fetcher = secondMockFetcher
 
-        assertNotNull(api.fetcher)
-        assertNotNull(apiWithFetcher.fetcher)
+    assertNotNull(api.fetcher)
+    assertNotNull(apiWithFetcher.fetcher)
 
-        assertNotEquals(mockFetcher, apiWithFetcher.fetcher)
-    }
+    assertNotEquals(mockFetcher, apiWithFetcher.fetcher)
+  }
 
-    @Test
-    fun getApiUid() {
-        val api             = Api(0, name1, domain1)
-        val apiWithFetcher  = Api(1, name2, domain2, mockFetcher)
+  @Test
+  fun getApiUid() {
+    val api = Api(0, name1, domain1)
+    val apiWithFetcher = Api(1, name2, domain2, mockFetcher)
 
-        assertEquals(0, api.apiUid)
-        assertEquals(1, apiWithFetcher.apiUid)
-    }
+    assertEquals(0, api.apiUid)
+    assertEquals(1, apiWithFetcher.apiUid)
+  }
 
-    @Test
-    fun getApiName() {
-        val api             = Api(0, name1, domain1)
-        val apiWithFetcher  = Api(1, name2, domain2, mockFetcher)
+  @Test
+  fun getApiName() {
+    val api = Api(0, name1, domain1)
+    val apiWithFetcher = Api(1, name2, domain2, mockFetcher)
 
-        assertEquals(name1, api.apiName)
-        assertEquals(name2, apiWithFetcher.apiName)
-    }
+    assertEquals(name1, api.apiName)
+    assertEquals(name2, apiWithFetcher.apiName)
+  }
 
-    @Test
-    fun getDomain() {
-        val api             = Api(0, name1, domain1)
-        val apiWithFetcher  = Api(1, name2, domain2, mockFetcher)
+  @Test
+  fun getDomain() {
+    val api = Api(0, name1, domain1)
+    val apiWithFetcher = Api(1, name2, domain2, mockFetcher)
 
-        assertEquals(domain1, api.domain)
-        assertEquals(domain2, apiWithFetcher.domain)
-    }
+    assertEquals(domain1, api.domain)
+    assertEquals(domain2, apiWithFetcher.domain)
+  }
 }
