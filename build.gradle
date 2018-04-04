@@ -36,15 +36,10 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-jacocoTestReport {
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
     classDirectories = files("${buildDir}/classes")
-
-    reports {
-        xml.enabled true
-        csv.enabled false
-        html.destination file("${buildDir}/jacoco/jacocoHtml")
-    }
-
     sourceDirectories = files([
             sourceSets.main.java.srcDirs,
             "src/main/kotlin"
@@ -56,11 +51,16 @@ jacocoTestReport {
                     exclude: ['**/*Test.*'])
         })
     }
-}
 
-test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
     }
 }
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
+}
+
