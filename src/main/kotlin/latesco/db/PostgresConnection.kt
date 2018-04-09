@@ -38,28 +38,21 @@ fun loadDriver() {
  * @param db        Database name
  * @param user      Username
  * @param password  User's password
+ *
+ * @return          An SSL connection to a PostgrSQL database
  */
-class PostgresConnection(private val host: String, private val db: String, private val user: String,
-    private val password: String) {
-
-  /**
-   * Create a connection to the database with an SSL connection.
-   *
-   * @return Connection to the datatabase
-   */
-  fun getConnection() : Connection {
-    if (!isDriverLoaded) {
-      loadDriver()
-    }
-
-    val url = "jdbc:postgresql://$host/$db"
-
-    val props = Properties()
-
-    props.setProperty("user",     user)
-    props.setProperty("password", password)
-    props.setProperty("ssl",      true.toString())
-
-    return DriverManager.getConnection(url, props)
+fun getPostgresConnection(host: String, db:String, user: String, password: String) : Connection {
+  if (!isDriverLoaded) {
+    loadDriver()
   }
+
+  val url = "jdbc:postgresql://$host/$db"
+
+  val props = Properties()
+
+  props.setProperty("user",     user)
+  props.setProperty("password", password)
+  props.setProperty("ssl",      true.toString())
+
+  return DriverManager.getConnection(url, props)
 }
