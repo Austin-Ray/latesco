@@ -17,7 +17,6 @@
 
 package latesco.network.coinmarket
 
-import com.google.gson.annotations.SerializedName
 import java.math.BigDecimal
 
 /**
@@ -25,8 +24,4 @@ import java.math.BigDecimal
  *
  * Since this class is based on JSON, the naming conventions are different.
  */
-class ApiResponse(val id: String, val name: String, val symbol: String, val rank: Int, val price_usd: BigDecimal,
-    val price_btc: BigDecimal, @SerializedName("24h_volume_usd") val volume_usd: BigDecimal,
-    val market_cap_usd: BigDecimal, val available_supply: BigDecimal, val total_supply: BigDecimal,
-    val percent_change_1h: Double, val percent_change_24h: Double, val percent_change_7d: Double,
-    val last_updated: Long)
+class ApiResponse(val id: String, val name: String, val symbol: String, val price_usd: BigDecimal)
