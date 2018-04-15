@@ -15,7 +15,7 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db
+package latesco.db.default
 
 import latesco.core.data.Asset
 import latesco.core.data.PriceRecord
