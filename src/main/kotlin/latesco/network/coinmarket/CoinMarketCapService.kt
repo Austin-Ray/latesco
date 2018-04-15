@@ -15,30 +15,19 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.network.abs
+package latesco.network.coinmarket
 
-interface ApiFetcher {
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-  val apiDomain: String
-  val refreshInterval: Long
-  var listener: ApiListener?
-  val registeredAssetUids: List<Long>
+const val coinMarketApi = "https://api.coinmarketcap.com/v1/"
 
-  /**
-   * Update all assets register with this ApiFetcher.
-   */
-  fun update()
+interface CoinMarketCapService {
+  @GET("ticker/")
+  fun getTickerAll() : Call<List<ApiResponse>>
 
-  /**
-   * Trigger a manual update of a specific asset.
-   *
-   * This function should not be used often, but the functionality exists
-   * regardless.
-   */
-  fun manualUpdate(assetUid: Long)
-
-  /**
-   * Register an Asset with the ApiFetcher so it will be automatically updated.
-   */
-  fun registerAsset(assetUid: Long)
+  @GET("ticker/{id}")
+  fun getTickerSpecific(@Path("id") id: String) : Call<List<ApiResponse>>
 }
+

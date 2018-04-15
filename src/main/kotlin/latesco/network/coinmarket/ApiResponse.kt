@@ -15,30 +15,13 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.network.abs
+package latesco.network.coinmarket
 
-interface ApiFetcher {
+import java.math.BigDecimal
 
-  val apiDomain: String
-  val refreshInterval: Long
-  var listener: ApiListener?
-  val registeredAssetUids: List<Long>
-
-  /**
-   * Update all assets register with this ApiFetcher.
-   */
-  fun update()
-
-  /**
-   * Trigger a manual update of a specific asset.
-   *
-   * This function should not be used often, but the functionality exists
-   * regardless.
-   */
-  fun manualUpdate(assetUid: Long)
-
-  /**
-   * Register an Asset with the ApiFetcher so it will be automatically updated.
-   */
-  fun registerAsset(assetUid: Long)
-}
+/**
+ * Class representing a single crypto-currency response from Latesco. It is modeled directly from the JSON.
+ *
+ * Since this class is based on JSON, the naming conventions are different.
+ */
+class ApiResponse(val id: String, val name: String, val symbol: String, val price_usd: BigDecimal)

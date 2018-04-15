@@ -17,6 +17,23 @@
 
 package latesco.network.abs
 
-interface ApiListener {
+import latesco.core.data.Asset
+import latesco.core.data.PriceRecord
 
+interface ApiListener {
+  /**
+   * Tell the Listener to record a new PriceRecord entry
+   *
+   * @param record    New PriceRecord
+   */
+  fun recordPrice(record: PriceRecord)
+
+  /**
+   * Return the Asset corresponding to a UID.
+   *
+   * @param uid   UID of Asset
+   *
+   * @return Asset matching the UID.
+   */
+  fun getAsset(uid: Long) : Asset
 }
