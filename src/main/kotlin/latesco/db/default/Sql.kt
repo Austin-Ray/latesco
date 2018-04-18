@@ -26,8 +26,13 @@ const val SELECT  = "SELECT"
 const val FROM    = "FROM"
 const val ALL     = "*"
 
+const val INSERT = "INSERT INTO"
+const val VALUES = "VALUES"
+
 const val WHERE   = "WHERE"
 const val BETWEEN = "BETWEEN"
+
+const val RETURN  = "RETURNING"
 
 // Logic expressions
 const val AND     = "AND"
