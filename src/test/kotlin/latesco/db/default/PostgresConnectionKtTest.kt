@@ -15,11 +15,10 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db
+package latesco.db.default
 
+import latesco.db.default.loadDriver
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class PostgresConnectionKtTest {
 
