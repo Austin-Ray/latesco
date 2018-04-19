@@ -36,4 +36,4 @@ package latesco.core.data
  * @param name      The human readable name for an asset.
  * @param symbol    The symbol which represents the asset.
  */
-data class Asset(val uid: Long, val name: String, val symbol: String)
+data class Asset(val uid: Int, val name: String, val symbol: String)

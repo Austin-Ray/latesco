@@ -17,7 +17,6 @@
 
 package latesco.db.default
 
-import latesco.db.default.loadDriver
 import org.junit.Test
 
 class PostgresConnectionKtTest {

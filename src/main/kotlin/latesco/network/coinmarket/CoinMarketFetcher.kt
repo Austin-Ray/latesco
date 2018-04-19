@@ -23,6 +23,7 @@ import latesco.network.abs.ApiFetcher
 import latesco.network.abs.ApiListener
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.sql.Timestamp
 
 /**
  * An ApiFetcher implementation for retrieving crypto-currency prices from CoinMarketCap.
@@ -36,7 +37,7 @@ class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
 
   override var listener: ApiListener? = null
 
-  override val registeredAssetUids: MutableList<Long> = mutableListOf()
+  override val registeredAssetUids: MutableList<Int> = mutableListOf()
 
   private val service: CoinMarketCapService
 
@@ -74,7 +75,7 @@ class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
     }
   }
 
-  override fun manualUpdate(assetUid: Long) {
+  override fun manualUpdate(assetUid: Int) {
     if (listener == null || !registeredAssetUids.contains(assetUid)) {
       return
     }
@@ -98,11 +99,11 @@ class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
     }
   }
 
-  private fun createPriceEntry(assetUid: Long, result: ApiResponse) : PriceRecord {
-    return PriceRecord(assetUid, 0, System.currentTimeMillis(), result.price_usd)
+  private fun createPriceEntry(assetUid: Int, result: ApiResponse) : PriceRecord {
+    return PriceRecord(assetUid, 0, Timestamp(System.currentTimeMillis()), result.price_usd)
   }
 
-  override fun registerAsset(assetUid: Long) {
+  override fun registerAsset(assetUid: Int) {
     registeredAssetUids.add(assetUid)
   }
 }

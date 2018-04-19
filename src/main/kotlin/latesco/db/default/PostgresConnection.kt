@@ -52,7 +52,7 @@ fun getPostgresConnection(host: String, db:String, user: String, password: Strin
 
   props.setProperty("user",     user)
   props.setProperty("password", password)
-  props.setProperty("ssl",      true.toString())
+  props.setProperty("ssl",      false.toString())
 
   return DriverManager.getConnection(url, props)
 }

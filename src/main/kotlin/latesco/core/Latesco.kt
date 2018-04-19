@@ -17,8 +17,4 @@
 
 package latesco.core
 
-import latesco.db.abs.Database
-import latesco.db.default.DefaultDatabase
-
-class Latesco(val db: Database = DefaultDatabase()) {
-}
+class Latesco() {}

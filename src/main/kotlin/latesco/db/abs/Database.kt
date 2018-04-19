@@ -76,7 +76,7 @@ interface Database {
    * @param assetUid      Asset UID
    * @param newQuantity   New quantity
    */
-  fun updateUserQuantity(userUid: Long, assetUid: Long, newQuantity: Long)
+  fun updateUserQuantity(userUid: Int, assetUid: Int, newQuantity: BigDecimal)
 
   /**
    * Fetches an Asset given its UID.
@@ -90,7 +90,7 @@ interface Database {
    *
    * @return          Composed Asset object based on database record
    */
-  fun fetchAsset(assetUid: Long): Asset
+  fun fetchAsset(assetUid: Int): Asset
 
   /**
    * Return the most recent PriceRecord for an asset and API.
@@ -100,7 +100,7 @@ interface Database {
    *
    * @return              Most recent PriceRecord matching asset and API UID.
    */
-  fun fetchCurrentPrice(assetUid: Long, apiUid: Long): PriceRecord
+  fun fetchCurrentPrice(assetUid: Int, apiUid: Int): PriceRecord
 
   /**
    * Return a list of PriceRecords for a given API's asset prices between an inclusive bound.
@@ -115,7 +115,7 @@ interface Database {
    *
    * @return
    */
-  fun fetchPriceInterval(assetUid: Long, apiUid: Long, start: Date, end: Date): List<PriceRecord>
+  fun fetchPriceInterval(assetUid: Int, apiUid: Int, start: Date, end: Date): List<PriceRecord>
 
   /**
    * Fetch the quantity of a user's asset.
@@ -125,7 +125,7 @@ interface Database {
    *
    * @return              Decimal representation of quantity. Some assets can be partial.
    */
-  fun fetchUserAssetQuantity(userUid: Long, assetUid: Long): BigDecimal
+  fun fetchUserAssetQuantity(userUid: Int, assetUid: Int): BigDecimal
 
   /**
    * Return a list of all Asset UIDs.
@@ -137,7 +137,7 @@ interface Database {
    *
    * @return  List of all Asset UIDs.
    */
-  fun fetchAllAssetUids(): List<Long>
+  fun fetchAllAssetUids(): List<Int>
 
   /**
    * Return all API UIDs.
@@ -148,5 +148,5 @@ interface Database {
    *
    * @return  List of all API UIDs.
    */
-  fun fetchAllApiUids(): List<Long>
+  fun fetchAllApiUids(): List<Int>
 }
