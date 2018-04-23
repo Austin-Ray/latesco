@@ -34,58 +34,44 @@ object FrontendConnector {
     return latesco.getBetweenDate(assetUid, apiUid, startDate, endDate)
   }
 
+  fun getPricesFromPastDay(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val dates = getStartAndDate(Calendar.DATE, -1)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
+  }
+
   fun getPricesFromPastWeek(assetUid: Int, apiUid: Int) : List<PriceRecord> {
-    val end = Date(System.currentTimeMillis())
-
-    cal.time = end
-    cal.add(Calendar.DATE, -7)
-
-    val start = cal.time
-
-    return getPricesBetweenDate(assetUid, apiUid, start, end)
+    val dates = getStartAndDate(Calendar.DATE, -7)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
   }
 
   fun getPricesFromPastMonth(assetUid: Int, apiUid: Int) : List<PriceRecord> {
-    val end = Date(System.currentTimeMillis())
-
-    cal.time = end
-    cal.add(Calendar.MONTH, -1)
-
-    val start = cal.time
-
-    return getPricesBetweenDate(assetUid, apiUid, start, end)
+    val dates = getStartAndDate(Calendar.MONTH, -1)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
   }
 
   fun getPricesFromPast3Months(assetUid: Int, apiUid: Int) : List<PriceRecord> {
-    val end = Date(System.currentTimeMillis())
-
-    cal.time = end
-    cal.add(Calendar.MONTH, -3)
-
-    val start = cal.time
-
-    return getPricesBetweenDate(assetUid, apiUid, start, end)
+    val dates = getStartAndDate(Calendar.MONTH, -3)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
   }
 
   fun getPricesFromPast6Months(assetUid: Int, apiUid: Int) : List<PriceRecord> {
-    val end = Date(System.currentTimeMillis())
-
-    cal.time = end
-    cal.add(Calendar.MONTH, -6)
-
-    val start = cal.time
-
-    return getPricesBetweenDate(assetUid, apiUid, start, end)
+    val dates = getStartAndDate(Calendar.MONTH, -6)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
   }
 
   fun getPricesFromPastYear(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val dates = getStartAndDate(Calendar.YEAR, -1)
+    return getPricesBetweenDate(assetUid, apiUid, dates[0], dates[1])
+  }
+
+  fun getStartAndDate(calMode: Int, delta: Int) : List<Date> {
     val end = Date(System.currentTimeMillis())
 
     cal.time = end
-    cal.add(Calendar.YEAR, -1)
+    cal.add(calMode, delta)
 
     val start = cal.time
 
-    return getPricesBetweenDate(assetUid, apiUid, start, end)
+    return listOf(start, end)
   }
 }
