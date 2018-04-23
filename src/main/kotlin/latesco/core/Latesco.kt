@@ -20,6 +20,7 @@ package latesco.core
 import latesco.core.connector.FrontendConnector
 import latesco.core.data.PriceRecord
 import latesco.db.abs.Database
+import latesco.network.Api
 import java.math.BigDecimal
 import java.util.Date
 
@@ -31,6 +32,17 @@ import java.util.Date
  * and queuing mechanisms, but they were cut due to time crunch.
  */
 class Latesco(private val db: Database) {
+
+  // Private APIs to prevent outside manipulation
+  private val privApis  = mutableListOf<Api>()
+
+  // Public API list to prevent modification of known APIs from outside source
+  val apis: List<Api>
+    get() = privApis.toList()
+
+  fun registerApi(api: Api) {
+    privApis.add(api)
+  }
 
   fun fetchUserQuantity(userUid: Int, assetUid: Int) : BigDecimal {
     return db.fetchUserAssetQuantity(userUid, assetUid)
