@@ -15,6 +15,14 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.core
+package latesco.db.default
 
-class Latesco() {}
+import org.junit.Test
+
+class PostgresConnectionKtTest {
+
+  @Test
+  fun loadDriverTest() {
+    loadDriver()
+  }
+}

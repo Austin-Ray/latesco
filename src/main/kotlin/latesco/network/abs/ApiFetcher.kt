@@ -22,7 +22,7 @@ interface ApiFetcher {
   val apiDomain: String
   val refreshInterval: Long
   var listener: ApiListener?
-  val registeredAssetUids: List<Long>
+  val registeredAssetUids: List<Int>
 
   /**
    * Update all assets register with this ApiFetcher.
@@ -35,10 +35,10 @@ interface ApiFetcher {
    * This function should not be used often, but the functionality exists
    * regardless.
    */
-  fun manualUpdate(assetUid: Long)
+  fun manualUpdate(assetUid: Int)
 
   /**
    * Register an Asset with the ApiFetcher so it will be automatically updated.
    */
-  fun registerAsset(assetUid: Long)
+  fun registerAsset(assetUid: Int)
 }

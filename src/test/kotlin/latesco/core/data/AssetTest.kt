@@ -17,13 +17,12 @@
 
 package latesco.core.data
 
-import latesco.core.data.Asset
 import org.junit.Test
 
 import org.junit.Assert.*
 
 class AssetTest {
-  private val assetUid = 0L
+  private val assetUid = 0
   private val assetName = "Bitcoin"
   private val assetSymbol = "BTC"
 

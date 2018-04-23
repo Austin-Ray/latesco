@@ -18,6 +18,7 @@
 package latesco.core.data
 
 import java.math.BigDecimal
+import java.sql.Timestamp
 
 /**
  * Representation of an asset's price from a specific API at a given time.
@@ -27,4 +28,4 @@ import java.math.BigDecimal
  * @param timestamp     Timestamp when the price was fetched.
  * @param price         Price of the asset from a given API.
  */
-data class PriceRecord(val assetUid: Long, val apiUid: Long, val timestamp: Long, val price: BigDecimal)
+data class PriceRecord(val assetUid: Int, val apiUid: Int, val timestamp: Timestamp, val price: BigDecimal)

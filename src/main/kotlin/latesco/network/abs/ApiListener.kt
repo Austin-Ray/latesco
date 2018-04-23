@@ -35,5 +35,5 @@ interface ApiListener {
    *
    * @return Asset matching the UID.
    */
-  fun getAsset(uid: Long) : Asset
+  fun getAsset(uid: Int) : Asset
 }
