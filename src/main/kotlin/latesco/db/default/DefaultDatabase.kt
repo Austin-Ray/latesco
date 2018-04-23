@@ -26,9 +26,7 @@ import java.sql.Timestamp
 import java.util.*
 
 /**
- * TODO: Add implementation.
- *
- * This is a stub class to setup calls.
+ * The referential database implementation for Latesco.
  */
 class DefaultDatabase(private val conn: Connection) : Database {
 
@@ -92,7 +90,17 @@ class DefaultDatabase(private val conn: Connection) : Database {
   }
 
   override fun updateUserQuantity(userUid: Int, assetUid: Int, newQuantity: BigDecimal) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    val sql = "$INSERT $TABLE_USER ($TABLE_USER_TIMESTAMP, $TABLE_USER_UID, $TABLE_USER_AID, $TABLE_USER_QUANT)" +
+        "$VALUES (?, ?, ?, ?)"
+
+    val statement = conn.prepareStatement(sql)
+
+    statement.setTimestamp(1,   Timestamp(System.currentTimeMillis()))
+    statement.setInt(2,         userUid)
+    statement.setInt(3,         assetUid)
+    statement.setBigDecimal(4,  newQuantity)
+
+    statement.execute()
   }
 
   override fun fetchAsset(assetUid: Int): Asset {
