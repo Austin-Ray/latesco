@@ -20,9 +20,25 @@ package latesco.core
 import latesco.core.connector.FrontendConnector
 import latesco.core.data.PriceRecord
 import latesco.db.abs.Database
+import java.math.BigDecimal
 import java.util.Date
 
+/**
+ * The core controller of Latesco.
+ *
+ * A lot of these methods are simple passthrough calls from the connector to the database.
+ * While this is bad design in the current instance, the initial plan was to include caching
+ * and queuing mechanisms, but they were cut due to time crunch.
+ */
 class Latesco(private val db: Database) {
+
+  fun fetchUserQuantity(userUid: Int, assetUid: Int) : BigDecimal {
+    return db.fetchUserAssetQuantity(userUid, assetUid)
+  }
+
+  fun updateUserQuantity(userUid: Int, assetUid: Int, newQuantity: BigDecimal) {
+    db.updateUserQuantity(userUid, assetUid, newQuantity)
+  }
 
   fun getBetweenDate(assetUid: Int, apiUid: Int, startDate: Date, endDate: Date): List<PriceRecord> {
     return db.fetchPriceInterval(assetUid, apiUid, startDate, endDate)

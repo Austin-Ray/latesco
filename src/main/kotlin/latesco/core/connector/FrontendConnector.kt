@@ -19,6 +19,7 @@ package latesco.core.connector
 
 import latesco.core.Latesco
 import latesco.core.data.PriceRecord
+import java.math.BigDecimal
 import java.util.Calendar
 import java.util.Date
 
@@ -27,8 +28,15 @@ import java.util.Date
  */
 object FrontendConnector {
   lateinit var latesco: Latesco
-
   private val cal = Calendar.getInstance()
+
+  fun getUserQuant(userUid: Int, assetUid: Int) : BigDecimal {
+    return latesco.fetchUserQuantity(userUid, assetUid)
+  }
+
+  fun setUserQuant(userUid: Int, assetUid: Int, newQuant: BigDecimal) {
+    latesco.updateUserQuantity(userUid, assetUid, newQuant)
+  }
 
   fun getPricesBetweenDate(assetUid: Int, apiUid: Int, startDate: Date, endDate: Date) : List<PriceRecord> {
     return latesco.getBetweenDate(assetUid, apiUid, startDate, endDate)
