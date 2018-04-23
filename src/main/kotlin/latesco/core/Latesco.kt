@@ -17,4 +17,21 @@
 
 package latesco.core
 
-class Latesco() {}
+import latesco.core.connector.FrontendConnector
+import latesco.core.data.PriceRecord
+import latesco.db.abs.Database
+import java.util.Date
+
+class Latesco(private val db: Database) {
+
+  fun getBetweenDate(assetUid: Int, apiUid: Int, startDate: Date, endDate: Date): List<PriceRecord> {
+    return db.fetchPriceInterval(assetUid, apiUid, startDate, endDate)
+  }
+
+  fun getConnector() : FrontendConnector {
+    val connector = FrontendConnector
+    connector.latesco = this
+
+    return connector
+  }
+}

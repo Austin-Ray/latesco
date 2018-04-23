@@ -18,13 +18,74 @@
 package latesco.core.connector
 
 import latesco.core.Latesco
-import latesco.core.data.Asset
 import latesco.core.data.PriceRecord
-import latesco.network.Api
+import java.util.Calendar
 import java.util.Date
 
 /**
  * Stub class for the Frontend Connector
  */
-class FrontendConnector(private val lat: Latesco) {
+object FrontendConnector {
+  lateinit var latesco: Latesco
+
+  private val cal = Calendar.getInstance()
+
+  fun getPricesBetweenDate(assetUid: Int, apiUid: Int, startDate: Date, endDate: Date) : List<PriceRecord> {
+    return latesco.getBetweenDate(assetUid, apiUid, startDate, endDate)
+  }
+
+  fun getPricesFromPastWeek(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val end = Date(System.currentTimeMillis())
+
+    cal.time = end
+    cal.add(Calendar.DATE, -7)
+
+    val start = cal.time
+
+    return getPricesBetweenDate(assetUid, apiUid, start, end)
+  }
+
+  fun getPricesFromPastMonth(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val end = Date(System.currentTimeMillis())
+
+    cal.time = end
+    cal.add(Calendar.MONTH, -1)
+
+    val start = cal.time
+
+    return getPricesBetweenDate(assetUid, apiUid, start, end)
+  }
+
+  fun getPricesFromPast3Months(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val end = Date(System.currentTimeMillis())
+
+    cal.time = end
+    cal.add(Calendar.MONTH, -3)
+
+    val start = cal.time
+
+    return getPricesBetweenDate(assetUid, apiUid, start, end)
+  }
+
+  fun getPricesFromPast6Months(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val end = Date(System.currentTimeMillis())
+
+    cal.time = end
+    cal.add(Calendar.MONTH, -6)
+
+    val start = cal.time
+
+    return getPricesBetweenDate(assetUid, apiUid, start, end)
+  }
+
+  fun getPricesFromPastYear(assetUid: Int, apiUid: Int) : List<PriceRecord> {
+    val end = Date(System.currentTimeMillis())
+
+    cal.time = end
+    cal.add(Calendar.YEAR, -1)
+
+    val start = cal.time
+
+    return getPricesBetweenDate(assetUid, apiUid, start, end)
+  }
 }
