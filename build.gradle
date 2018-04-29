@@ -15,6 +15,10 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'jacoco'
+apply plugin: 'application'
+
+mainClassName = 'latesco.core.LatescoKt'
+defaultTasks 'run'
 
 sourceCompatibility = 1.8
 
@@ -71,5 +75,13 @@ task codeCoverageReport(type: JacocoReport) {
 
 codeCoverageReport.dependsOn {
     subprojects*.test
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'latesco.core.LatescoKt'
+    }
+
+    from {configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}}
 }
 

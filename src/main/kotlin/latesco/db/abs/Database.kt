@@ -19,6 +19,7 @@ package latesco.db.abs
 
 import latesco.core.data.Asset
 import latesco.core.data.PriceRecord
+import latesco.network.Api
 import java.math.BigDecimal
 import java.util.*
 
@@ -49,7 +50,7 @@ interface Database {
    *
    * @return  Asset UID for asset inserted into the database.
    */
-  fun insertAsset(assetName: String, assetSymbol: String): Long
+  fun insertAsset(assetName: String, assetSymbol: String): Int
 
   /**
    * Insert an API into the database and return its UID for archival purposes.
@@ -62,7 +63,7 @@ interface Database {
    *
    * @return          UID for the API
    */
-  fun insertApi(apiName: String): Long
+  fun insertApi(apiName: String, domain: String): Int
 
   /**
    * Update a user's quantity for a given asset.
@@ -91,6 +92,8 @@ interface Database {
    * @return          Composed Asset object based on database record
    */
   fun fetchAsset(assetUid: Int): Asset
+
+  fun fetchApi(apiUid: Int): Api
 
   /**
    * Return the most recent PriceRecord for an asset and API.

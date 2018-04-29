@@ -38,6 +38,10 @@ object FrontendConnector {
     latesco.updateUserQuantity(userUid, assetUid, newQuant)
   }
 
+  fun getCurrentPrice(assetUid: Int, apiUid: Int) : PriceRecord {
+    return latesco.getCurrentPrice(assetUid, apiUid)
+  }
+
   fun getPricesBetweenDate(assetUid: Int, apiUid: Int, startDate: Date, endDate: Date) : List<PriceRecord> {
     return latesco.getBetweenDate(assetUid, apiUid, startDate, endDate)
   }
