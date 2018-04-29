@@ -15,33 +15,14 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db.default
+package latesco.db.def
 
-/**
- * This file contains a few SQL keywords to make writing the SQL strings
- * easier, reduce redundancy, and improve readability.
- */
+import org.junit.Test
 
-const val SELECT  = "SELECT"
-const val FROM    = "FROM"
-const val ALL     = "*"
+class PostgresConnectionKtTest {
 
-const val INSERT = "INSERT INTO"
-const val VALUES = "VALUES"
-
-const val WHERE   = "WHERE"
-const val BETWEEN = "BETWEEN"
-
-const val RETURN  = "RETURNING"
-
-// Logic expressions
-const val AND     = "AND"
-const val OR      = "OR"
-const val NOT     = "NOT"
-
-// Conditionals
-const val GTE     = ">="
-const val GT      = ">"
-const val LTE     = "<="
-const val LT      = "<"
-const val IS      = "="
+  @Test
+  fun loadDriverTest() {
+    loadDriver()
+  }
+}

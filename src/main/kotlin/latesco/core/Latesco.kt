@@ -21,12 +21,9 @@ import latesco.core.connector.FrontendConnector
 import latesco.core.data.Asset
 import latesco.core.data.PriceRecord
 import latesco.db.abs.Database
-import latesco.db.default.DefaultDatabase
-import latesco.db.default.getPostgresConnection
 import latesco.network.Api
 import latesco.network.abs.ApiFetcher
 import latesco.network.abs.ApiListener
-import latesco.network.coinmarket.CoinMarketFetcher
 import java.math.BigDecimal
 import java.util.Date
 import java.util.Timer
