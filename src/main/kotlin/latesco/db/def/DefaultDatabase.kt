@@ -281,4 +281,28 @@ class DefaultDatabase(private val conn: Connection) : Database {
 
     throw Exception("SQL call failed")
   }
+
+  override fun allAssetUidsForUser(uid: Int): List<Int> {
+    val sql =
+        "$SELECT DISTINCT $TABLE_USER_AID " +
+        "$FROM $TABLE_USER " +
+        "$WHERE $TABLE_USER_UID $IS $uid;"
+
+    val statement = conn.prepareCall(sql)
+    val hasResults = statement.execute()
+
+    val list = mutableListOf<Int>()
+
+    if (hasResults) {
+      val results = statement.resultSet
+
+      while (results.next()) {
+        list.add(results.getInt(TABLE_USER_AID))
+      }
+
+      return list
+    }
+
+    throw Exception("SQL call failed")
+  }
 }

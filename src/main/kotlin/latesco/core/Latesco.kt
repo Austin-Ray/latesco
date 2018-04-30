@@ -121,6 +121,10 @@ class Latesco(private val db: Database) : ApiListener {
     return connector
   }
 
+  fun getAllAssetIds(uid: Int) : List<Int> {
+    return db.allAssetUidsForUser(uid)
+  }
+
   override fun recordPrice(record: PriceRecord) {
     db.insertPriceEntry(record)
   }

@@ -86,4 +86,8 @@ object FrontendConnector {
 
     return listOf(start, end)
   }
+
+  fun getAllUsersAssets(uid: Int) : List<Int> {
+    return latesco.getAllAssetIds(uid)
+  }
 }

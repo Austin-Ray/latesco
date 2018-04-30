@@ -152,4 +152,6 @@ interface Database {
    * @return  List of all API UIDs.
    */
   fun fetchAllApiUids(): List<Int>
+
+  fun allAssetUidsForUser(uid: Int) : List<Int>
 }
