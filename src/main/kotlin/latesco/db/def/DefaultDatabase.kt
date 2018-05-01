@@ -216,7 +216,7 @@ class DefaultDatabase(private val conn: Connection) : Database {
         "$SELECT $TABLE_USER_QUANT " +
         "$FROM $TABLE_USER " +
         "$WHERE $TABLE_USER_UID $IS ? $AND $TABLE_USER_AID $IS ? " +
-            "ORDER BY $TABLE_USER_QUANT DESC LIMIT 1"
+            "ORDER BY $TABLE_USER_TIMESTAMP DESC LIMIT 1"
 
     val statement = conn.prepareStatement(sql)
 
