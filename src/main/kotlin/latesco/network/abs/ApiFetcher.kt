@@ -19,10 +19,12 @@ package latesco.network.abs
 
 interface ApiFetcher {
 
+  val name: String
   val apiDomain: String
   val refreshInterval: Long
   var listener: ApiListener?
   val registeredAssetUids: List<Int>
+  var uid: Int?
 
   /**
    * Update all assets register with this ApiFetcher.

@@ -15,13 +15,13 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db.default
+package latesco.db.def
 
 // Tables
 const val TABLE_API   = "api"
 const val TABLE_ASSET = "asset"
 const val TABLE_PRICE = "price"
-const val TABLE_USER  = "user"
+const val TABLE_USER  = "users"
 
 // Asset table columns
 const val TABLE_ASSET_ID      = "id"
@@ -29,19 +29,19 @@ const val TABLE_ASSET_NAME    = "name"
 const val TABLE_ASSET_SYMBOL  = "symbol"
 
 // API table columns
-const val TABLE_API_ID    = "id"
-const val TABLE_API_NAME  = "name"
+const val TABLE_API_ID      = "id"
+const val TABLE_API_NAME    = "name"
+const val TABLE_API_DOMAIN  = "domain"
 
 // Price table columns
-const val TABLE_PRICE_TIMESTAMP = "timestamp"
+const val TABLE_PRICE_TIMESTAMP = "ret_time"
 const val TABLE_PRICE_ASSET_ID  = "asset_uid"
 const val TABLE_PRICE_API_ID    = "api_uid"
 const val TABLE_PRICE_PRICE     = "price"
 
 // User table columns
-const val TABLE_USER_TIMESTAMP    = "timestamp"
+const val TABLE_USER_TIMESTAMP    = "ins_time"
 const val TABLE_USER_UID          = "user_uid"
 const val TABLE_USER_AID          = "asset_uid"
-const val TABLE_USER_QUANT_CHANGE = "quant_change"
 const val TABLE_USER_QUANT        = "quant_total"
 

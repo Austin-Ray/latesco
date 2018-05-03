@@ -32,6 +32,10 @@ import java.sql.Timestamp
  */
 class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
 
+  override var uid: Int? = null
+
+  override val name = "CoinMarketCap"
+
   override val apiDomain: String
     get() = coinMarketApi
 
@@ -65,7 +69,7 @@ class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
       // For every registered Asset UID, find a match in the response
       registeredAssetUids.forEach { uid ->
         // This is guaranteed to exist since these UIDs are registered from the listener
-        val assetId = listener.getAsset(uid).name.toLowerCase()
+        val assetId = listener.getAsset(uid).name.toLowerCase().replace(" ", "-")
         val match: ApiResponse? = results.find { it.id == assetId }
 
         if (match != null) {
@@ -100,7 +104,7 @@ class CoinMarketFetcher(override val refreshInterval: Long) : ApiFetcher {
   }
 
   private fun createPriceEntry(assetUid: Int, result: ApiResponse) : PriceRecord {
-    return PriceRecord(assetUid, 0, Timestamp(System.currentTimeMillis()), result.price_usd)
+    return PriceRecord(assetUid, uid!!, Timestamp(System.currentTimeMillis()), result.price_usd)
   }
 
   override fun registerAsset(assetUid: Int) {

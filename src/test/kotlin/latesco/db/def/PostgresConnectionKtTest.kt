@@ -15,7 +15,7 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db.default
+package latesco.db.def
 
 import org.junit.Test
 

@@ -15,7 +15,7 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db.default
+package latesco.db.def
 
 /**
  * This file contains a few SQL keywords to make writing the SQL strings
@@ -44,4 +44,4 @@ const val GTE     = ">="
 const val GT      = ">"
 const val LTE     = "<="
 const val LT      = "<"
-const val IS      = "=="
+const val IS      = "="

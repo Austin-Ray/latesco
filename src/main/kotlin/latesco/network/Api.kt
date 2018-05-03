@@ -32,7 +32,7 @@ import latesco.network.abs.ApiFetcher
  * @param domain    Domain that the API retrieves information from (used for uniqueness)
  * @constructor     Create an API without a fetcher (this can happen for a multitude of reasons)
  */
-data class Api(val apiUid: Long, val apiName: String, val domain: String) {
+data class Api(val apiUid: Int, val apiName: String, val domain: String) {
   var fetcher: ApiFetcher? = null
 
   /**
@@ -43,7 +43,7 @@ data class Api(val apiUid: Long, val apiName: String, val domain: String) {
    * @param domain        Domain that the API retrieves information from.
    * @param fetcher       ApiFetcher for retrieving pricing information
    */
-  constructor(apiUid: Long, apiName: String, domain: String, fetcher: ApiFetcher) : this(apiUid, apiName, domain) {
+  constructor(apiUid: Int, apiName: String, domain: String, fetcher: ApiFetcher) : this(apiUid, apiName, domain) {
     this.fetcher = fetcher
   }
 }

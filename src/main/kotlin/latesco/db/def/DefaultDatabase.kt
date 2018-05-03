@@ -15,11 +15,12 @@
  * along with Latesco.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package latesco.db.default
+package latesco.db.def
 
 import latesco.core.data.Asset
 import latesco.core.data.PriceRecord
 import latesco.db.abs.Database
+import latesco.network.Api
 import java.math.BigDecimal
 import java.sql.Connection
 import java.sql.Timestamp
@@ -45,7 +46,7 @@ class DefaultDatabase(private val conn: Connection) : Database {
     statement.execute()
   }
 
-  override fun insertAsset(assetName: String, assetSymbol: String): Long {
+  override fun insertAsset(assetName: String, assetSymbol: String): Int {
     val sql =
         "$INSERT $TABLE_ASSET ($TABLE_ASSET_NAME, $TABLE_ASSET_SYMBOL)" +
         "$VALUES (?, ?) " +
@@ -60,21 +61,24 @@ class DefaultDatabase(private val conn: Connection) : Database {
 
     if (hasResult) {
       val rs = statement.resultSet
-      return rs.getLong(TABLE_ASSET_ID)
+      if (rs.next()) {
+        return rs.getInt(TABLE_ASSET_ID)
+      }
     }
 
     throw Exception("SQL STATEMENT FAILED")
   }
 
-  override fun insertApi(apiName: String): Long {
+  override fun insertApi(apiName: String, domain: String): Int {
     val sql =
-        "$INSERT $TABLE_API ($TABLE_API_NAME) " +
-        "$VALUES (?) " +
+        "$INSERT $TABLE_API ($TABLE_API_NAME, $TABLE_API_DOMAIN) " +
+        "$VALUES (?, ?) " +
         "$RETURN $TABLE_API_ID"
 
     val statement = conn.prepareStatement(sql)
 
     statement.setString(1, apiName)
+    statement.setString(2, domain)
 
     val hasResult = statement.execute()
 
@@ -82,7 +86,7 @@ class DefaultDatabase(private val conn: Connection) : Database {
       val rs = statement.resultSet
 
       if (rs.next()) {
-        return rs.getLong(TABLE_API_ID)
+        return rs.getInt(TABLE_API_ID)
       }
     }
 
@@ -91,7 +95,7 @@ class DefaultDatabase(private val conn: Connection) : Database {
 
   override fun updateUserQuantity(userUid: Int, assetUid: Int, newQuantity: BigDecimal) {
     val sql = "$INSERT $TABLE_USER ($TABLE_USER_TIMESTAMP, $TABLE_USER_UID, $TABLE_USER_AID, $TABLE_USER_QUANT)" +
-        "$VALUES (?, ?, ?, ?)"
+        " $VALUES (?, ?, ?, ?);"
 
     val statement = conn.prepareStatement(sql)
 
@@ -106,8 +110,8 @@ class DefaultDatabase(private val conn: Connection) : Database {
   override fun fetchAsset(assetUid: Int): Asset {
     val sql =
         "$SELECT $ALL" +
-        "$FROM $TABLE_API " +
-        "$WHERE $TABLE_API_ID $IS ?"
+        "$FROM $TABLE_ASSET " +
+        "$WHERE $TABLE_ASSET_ID $IS ?"
 
     val statement = conn.prepareStatement(sql)
 
@@ -126,11 +130,36 @@ class DefaultDatabase(private val conn: Connection) : Database {
     throw Exception("SQL call failed")
   }
 
+  override fun fetchApi(apiUid: Int): Api {
+    val sql =
+        "$SELECT $ALL" +
+            "$FROM $TABLE_API " +
+            "$WHERE $TABLE_API_ID $IS ?"
+
+    val statement = conn.prepareStatement(sql)
+
+    statement.setInt(1, apiUid)
+
+    val hasResult = statement.execute()
+
+    if (hasResult) {
+      val rs = statement.resultSet
+
+      if (rs.next()) {
+        return Api(rs.getInt(TABLE_API_ID), rs.getString(TABLE_API_NAME), rs.getString(TABLE_API_DOMAIN))
+      }
+    }
+
+    throw Exception("SQL call failed")
+  }
+
   override fun fetchCurrentPrice(assetUid: Int, apiUid: Int): PriceRecord {
     val sql =
-        "$SELECT TOP 1 $ALL " +
-        "$FROM $TABLE_API " +
-        "ORDER BY $TABLE_API_ID DESC"
+        "$SELECT $ALL " +
+        "$FROM $TABLE_PRICE " +
+        "$WHERE $TABLE_PRICE_ASSET_ID $IS $assetUid $AND $TABLE_PRICE_API_ID $IS $apiUid " +
+        "ORDER BY $TABLE_PRICE_TIMESTAMP " +
+        "DESC LIMIT 1"
 
     val statement = conn.prepareCall(sql)
 
@@ -151,13 +180,18 @@ class DefaultDatabase(private val conn: Connection) : Database {
   override fun fetchPriceInterval(assetUid: Int, apiUid: Int, start: Date, end: Date): List<PriceRecord> {
     val sql =
         "$SELECT $ALL " +
-        "$FROM $TABLE_PRICE" +
-        "$WHERE $TABLE_PRICE_TIMESTAMP $GTE ? $AND $TABLE_PRICE_TIMESTAMP $LTE ?"
+        "$FROM $TABLE_PRICE " +
+        "$WHERE $TABLE_PRICE_ASSET_ID $IS ? " +
+            "$AND $TABLE_PRICE_API_ID $IS ? " +
+            "$AND $TABLE_PRICE_TIMESTAMP $GTE ? " +
+            "$AND $TABLE_PRICE_TIMESTAMP $LTE ?"
 
     val statement = conn.prepareStatement(sql)
 
-    statement.setTimestamp(1, Timestamp(start.time))
-    statement.setTimestamp(2, Timestamp(end.time))
+    statement.setInt(1, assetUid)
+    statement.setInt(2, apiUid)
+    statement.setTimestamp(3, Timestamp(start.time))
+    statement.setTimestamp(4, Timestamp(end.time))
 
     val hasResult = statement.execute()
 
@@ -179,9 +213,10 @@ class DefaultDatabase(private val conn: Connection) : Database {
 
   override fun fetchUserAssetQuantity(userUid: Int, assetUid: Int): BigDecimal {
     val sql =
-        "$SELECT $TABLE_USER_QUANT, MAX($TABLE_USER_TIMESTAMP) " +
-        "$FROM $TABLE_USER" +
-        "$WHERE $TABLE_USER_UID $IS ? $AND $TABLE_USER_AID $IS ?"
+        "$SELECT $TABLE_USER_QUANT " +
+        "$FROM $TABLE_USER " +
+        "$WHERE $TABLE_USER_UID $IS ? $AND $TABLE_USER_AID $IS ? " +
+            "ORDER BY $TABLE_USER_TIMESTAMP DESC LIMIT 1"
 
     val statement = conn.prepareStatement(sql)
 
@@ -204,7 +239,7 @@ class DefaultDatabase(private val conn: Connection) : Database {
   override fun fetchAllAssetUids(): List<Int> {
     val sql =
         "$SELECT $TABLE_ASSET_ID " +
-        "$FROM $TABLE_ASSET_ID"
+        "$FROM $TABLE_ASSET"
 
     val statement = conn.prepareCall(sql)
     val hasResults = statement.execute()
@@ -239,6 +274,30 @@ class DefaultDatabase(private val conn: Connection) : Database {
 
       while (results.next()) {
         list.add(results.getInt(TABLE_API_ID))
+      }
+
+      return list
+    }
+
+    throw Exception("SQL call failed")
+  }
+
+  override fun allAssetUidsForUser(uid: Int): List<Int> {
+    val sql =
+        "$SELECT DISTINCT $TABLE_USER_AID " +
+        "$FROM $TABLE_USER " +
+        "$WHERE $TABLE_USER_UID $IS $uid;"
+
+    val statement = conn.prepareCall(sql)
+    val hasResults = statement.execute()
+
+    val list = mutableListOf<Int>()
+
+    if (hasResults) {
+      val results = statement.resultSet
+
+      while (results.next()) {
+        list.add(results.getInt(TABLE_USER_AID))
       }
 
       return list
